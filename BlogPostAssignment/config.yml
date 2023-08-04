@@ -1,0 +1,9 @@
+logging:
+  level: INFO
+  loggers:
+    BlogPostAssignment: DEBUG
+database:
+  driverClass: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/project?user=root&useSSL=false&allowPublicKeyRetrieval=true
+  user: root
+  password: password
