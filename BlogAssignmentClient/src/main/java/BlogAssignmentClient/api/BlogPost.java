@@ -1,5 +1,6 @@
 package BlogAssignmentClient.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.format.DateTimeFormatter;
@@ -11,8 +12,9 @@ public class BlogPost {
     private String title;
     @JsonProperty("content")
     private String content;
-//    @JsonProperty("time_created")
-//    private DateTimeFormatter dateCreated;
+    @JsonProperty("time_created")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private String dateCreated;
 
     public int getId() {
         return id;
@@ -38,11 +40,11 @@ public class BlogPost {
         this.content = content;
     }
 
-//    public DateTimeFormatter getDateCreated() {
-//        return dateCreated;
-//    }
+    public String getDateCreated() {
+        return dateCreated;
+    }
 
-//    public void setDateCreated(DateTimeFormatter dateCreated) {
-//        this.dateCreated = dateCreated;
-//    }
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 }

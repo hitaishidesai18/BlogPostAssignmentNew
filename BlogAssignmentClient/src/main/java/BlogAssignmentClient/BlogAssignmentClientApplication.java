@@ -42,55 +42,56 @@ public class BlogAssignmentClientApplication extends Application<BlogAssignmentC
         String username = "user";
         String password = "password";
         BlogPostClient blogPostsClient = Feign.builder().client(new OkHttpClient()).encoder(new JacksonEncoder()).decoder(new JacksonDecoder()).target(BlogPostClient.class, "http://localhost:8080/blog-post");
-        //List all blog posts
 
         String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-        System.out.println("List all blog posts-");
-        for(BlogPost bp: blogPostsClient.getAllBlogPosts()){
-            System.out.println("ID: "+ bp.getId());
-            System.out.println("Title: "+ bp.getTitle());
-            System.out.println("Content: "+bp.getContent());
-            //System.out.println("Date Created: "+ bp.getDateCreated()+"\n");
-        }
-//
-//        //List blog post by id
-//        System.out.println("List blog post by id-");
-//        BlogPost blogPost = blogPostsClient.getBlogPostById(2);
-//        System.out.println("ID: "+ blogPost.getId()+"\n");
-//
-//        //Search blog post
-//        System.out.println("Search blog post for first-");
-//        for(BlogPost bp: blogPostsClient.searchBlogPosts("first")){
+        Menu menu = new Menu(blogPostsClient, credentials);
+        menu.start();
+//        System.out.println("List all blog posts-");
+//        for(BlogPost bp: blogPostsClient.getAllBlogPosts()){
 //            System.out.println("ID: "+ bp.getId());
 //            System.out.println("Title: "+ bp.getTitle());
 //            System.out.println("Content: "+bp.getContent());
 //            //System.out.println("Date Created: "+ bp.getDateCreated()+"\n");
 //        }
+////
+////        //List blog post by id
+////        System.out.println("List blog post by id-");
+////        BlogPost blogPost = blogPostsClient.getBlogPostById(2);
+////        System.out.println("ID: "+ blogPost.getId()+"\n");
+////
+////        //Search blog post
+////        System.out.println("Search blog post for first-");
+////        for(BlogPost bp: blogPostsClient.searchBlogPosts("first")){
+////            System.out.println("ID: "+ bp.getId());
+////            System.out.println("Title: "+ bp.getTitle());
+////            System.out.println("Content: "+bp.getContent());
+////            //System.out.println("Date Created: "+ bp.getDateCreated()+"\n");
+////        }
+////
+//        //create new blog post
+//        Map<String, String> newPost = new HashMap<>();
+//        newPost.put("title", "brand new post");
+//        newPost.put("content", "brand new content");
+//        System.out.println("Create new blog post-\n");
+//        blogPostsClient.createNewBlogPost(credentials,newPost);
 //
-        //create new blog post
-        Map<String, String> newPost = new HashMap<>();
-        newPost.put("title", "brand new post");
-        newPost.put("content", "brand new content");
-        System.out.println("Create new blog post-\n");
-        blogPostsClient.createNewBlogPost(credentials,newPost);
-
-        System.out.println("Update blog post-");
-
-        Map<String, String> updateData = new HashMap<>();
-        updateData.put("title", "updated title");
-        updateData.put("content", "updated content");
-        blogPostsClient.updateBlogPost(credentials,4, updateData);
+//        System.out.println("Update blog post-");
 //
-        System.out.println("delete blog post-");
-        //blogPostsClient.deleteBlogPost(credentials, 7);
-//
-        System.out.println("List all blog posts-");
-        for(BlogPost bp: blogPostsClient.getAllBlogPosts()){
-            System.out.println("ID: "+ bp.getId());
-            System.out.println("Title: "+ bp.getTitle());
-            System.out.println("Content: "+bp.getContent());
-            //System.out.println("Date Created: "+ bp.getDateCreated()+"\n");
-        }
+//        Map<String, String> updateData = new HashMap<>();
+//        updateData.put("title", "updated title");
+//        updateData.put("content", "updated content");
+//        blogPostsClient.updateBlogPost(credentials,4, updateData);
+////
+//        System.out.println("delete blog post-");
+//        //blogPostsClient.deleteBlogPost(credentials, 7);
+////
+//        System.out.println("List all blog posts-");
+//        for(BlogPost bp: blogPostsClient.getAllBlogPosts()){
+//            System.out.println("ID: "+ bp.getId());
+//            System.out.println("Title: "+ bp.getTitle());
+//            System.out.println("Content: "+bp.getContent());
+//            //System.out.println("Date Created: "+ bp.getDateCreated()+"\n");
+//        }
     }
 
 }

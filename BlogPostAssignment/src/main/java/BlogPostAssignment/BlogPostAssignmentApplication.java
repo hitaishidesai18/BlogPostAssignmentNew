@@ -1,10 +1,8 @@
 package BlogPostAssignment;
-
+//this is branch test
 import BlogPostAssignment.api.User;
 import BlogPostAssignment.health.BlogHealthCheck;
 import BlogPostAssignment.resources.BlogPostResource;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.core.Application;

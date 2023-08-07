@@ -1,8 +1,12 @@
 package BlogPostAssignment.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class BlogPost {
     @JsonProperty("id")
@@ -12,17 +16,20 @@ public class BlogPost {
     @JsonProperty("content")
     private String content;
     @JsonProperty("time_created")
-    private DateTimeFormatter dateCreated;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date dateCreated;
 
     public int getId() {
         return id;
     }
 
-    public BlogPost(int id, String title, String content, DateTimeFormatter dateCreated) {
+    public BlogPost(int id, String title, String content, Date dateCreated) {
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         this.id = id;
         this.title = title;
         this.content = content;
         this.dateCreated = dateCreated;
+        //this.dateCreated = sdf.format(dateCreated);
     }
 
     public BlogPost(){}
@@ -47,11 +54,11 @@ public class BlogPost {
         this.content = content;
     }
 
-    public DateTimeFormatter getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(DateTimeFormatter dateCreated) {
+    public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 }

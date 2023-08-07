@@ -5,21 +5,23 @@ import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import org.jdbi.v3.sqlobject.statement.UseRowMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BlogPostDao {
     @SqlQuery("SELECT * FROM blog_posts;")
-    @RegisterBeanMapper(BlogPost.class)
+    @UseRowMapper(BlogPostMapper.class)
+        //@RegisterBeanMapper(BlogPost.class)
     List<BlogPost> getAllBlogPosts();
 
     @SqlQuery("SELECT id, title, content, time_created FROM blog_posts WHERE id = :id;")
-    @RegisterBeanMapper(BlogPost.class)
+    @UseRowMapper(BlogPostMapper.class)
     BlogPost getBlogPostById(@Bind("id") int id);
 
     @SqlQuery("SELECT id, title, content, time_created FROM blog_posts WHERE title LIKE :query OR content LIKE :query;")
-    @RegisterBeanMapper(BlogPost.class)
+    @UseRowMapper(BlogPostMapper.class)
     List<BlogPost> searchBlogPosts(@Bind("query") String query);
 
     @SqlUpdate("INSERT INTO blog_posts (title, content, time_created) VALUES (:title, :content, CURDATE());")
