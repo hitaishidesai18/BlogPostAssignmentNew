@@ -1,0 +1,10 @@
+BlogPostAssignment/BlogAssignmentAuthenticator.class
+BlogPostAssignment/BlogPostAssignmentConfiguration.class
+BlogPostAssignment/BlogAssignmentModule.class
+BlogPostAssignment/db/BlogPostDao.class
+BlogPostAssignment/api/User.class
+BlogPostAssignment/resources/BlogPostResource.class
+BlogPostAssignment/health/BlogHealthCheck.class
+BlogPostAssignment/api/BlogPost.class
+BlogPostAssignment/BlogPostAssignmentApplication.class
+BlogPostAssignment/db/BlogPostMapper.class
