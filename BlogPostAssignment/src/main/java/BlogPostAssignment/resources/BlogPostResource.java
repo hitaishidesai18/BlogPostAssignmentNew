@@ -20,6 +20,7 @@ public class BlogPostResource {
     public BlogPostResource(Jdbi jdbi) {
         this.blogDao = jdbi.onDemand(BlogPostDao.class);
     }
+    public BlogPostResource(BlogPostDao blogPostDao){ this.blogDao = blogPostDao; }
     @GET
     public List<BlogPost> getAllBlogPosts(){;
         return blogDao.getAllBlogPosts();
@@ -44,8 +45,8 @@ public class BlogPostResource {
 //    }
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void createBlogPost( @HeaderParam("Authorization")@Auth User user, Map<String, String> data){
-        blogDao.createBlogPost(data.get("title"), data.get("content"));
+    public int createBlogPost( @HeaderParam("Authorization")@Auth User user, Map<String, String> data){
+        return blogDao.createBlogPost(data.get("title"), data.get("content"));
     }
 
 

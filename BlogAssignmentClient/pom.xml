@@ -84,6 +84,12 @@
             <artifactId>dropwizard-auth</artifactId>
             <version>4.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

@@ -2,7 +2,13 @@ package BlogAssignmentClient;
 
 import BlogAssignmentClient.api.BlogPost;
 import BlogAssignmentClient.client.BlogPostClient;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.Response;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +23,7 @@ public class Menu {
         this.credentials = credentials;
     }
     //display menu
-    public void start(){
+    public void start() throws IOException {
         System.out.println("1. Get all blog posts\n" +
                 "2. Get get blog post by id\n" +
                 "3. Search blog posts\n" +
@@ -72,26 +78,50 @@ public class Menu {
 
     }
     //get all blog posts
-    public void getAllBlogPosts() {
-        for (BlogPost bp : blogPostsClient.getAllBlogPosts()) {
+    public void getAllBlogPosts() throws IOException {
+//        List<BlogPost> bps =  blogPostsClient.getAllBlogPosts();
+//        for (BlogPost bp : bps) {
+//            this.printBlogPost(bp);
+//        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        InputStream inputStream = blogPostsClient.getAllBlogPosts().body().asInputStream();
+        String text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        List<BlogPost> blogPostList = objectMapper.readValue(text, new TypeReference<List<BlogPost>>(){});
+        for (BlogPost bp : blogPostList) {
             this.printBlogPost(bp);
         }
         this.start();
     }
     //get blog post by id
-    public void getBlogPostById(int id){
-        BlogPost blogPost = blogPostsClient.getBlogPostById(id);
-        if(blogPost==null) {
+    public void getBlogPostById(int id) throws IOException {
+//        BlogPost blogPost = blogPostsClient.getBlogPostById(id);
+//        if(blogPost==null) {
+//            System.out.println("Blog post with this id does not exist");
+//        }
+//        else {
+//            this.printBlogPost(blogPost);
+//        }
+        Response.Body body = blogPostsClient.getBlogPostById(id).body();
+        if(body==null){
             System.out.println("Blog post with this id does not exist");
         }
         else {
-            this.printBlogPost(blogPost);
+            ObjectMapper objectMapper = new ObjectMapper();
+            String text = new String(body.asInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            BlogPost bp = objectMapper.readValue(text, BlogPost.class);
+            printBlogPost(bp);
         }
-        this.start();
+        start();
+
     }
     //search blog posts
-    public void searchBlogPost(String query){
-        List<BlogPost> res = blogPostsClient.searchBlogPosts(query);
+    public void searchBlogPost(String query) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        InputStream inputStream = blogPostsClient.searchBlogPosts(query).body().asInputStream();
+        String text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        List<BlogPost> res = objectMapper.readValue(text, new TypeReference<List<BlogPost>>(){});
+        //List<BlogPost> res = blogPostsClient.searchBlogPosts(query);
         if(res.isEmpty()){
             System.out.println("No blog posts matching the query");
         }
@@ -103,7 +133,7 @@ public class Menu {
         this.start();
     }
     //update blog post title/content
-    public void updateBlogPost(int id, String title, String content){
+    public void updateBlogPost(int id, String title, String content) throws IOException {
         title = title.equals("")?null:title;
         content = content.equals("")?null:content;
         Map<String, String> newPost = new HashMap<>();
@@ -113,17 +143,20 @@ public class Menu {
         this.start();
     }
     //create blog post
-    public void createBlogPost(String title, String content){
+    public void createBlogPost(String title, String content) throws IOException {
         Map<String, String> newPost = new HashMap<>();
         newPost.put("title", title);
         newPost.put("content", content);
-        blogPostsClient.createNewBlogPost(credentials,newPost);
+        ObjectMapper objectMapper = new ObjectMapper();
+        InputStream inputStream = blogPostsClient.createNewBlogPost(credentials, newPost).body().asInputStream();
+        String text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        System.out.println("Created blog post with id "+text );
         this.start();
     }
     //delete blog post
-    public void deleteBlogPost(int id){
+    public void deleteBlogPost(int id) throws IOException {
         blogPostsClient.deleteBlogPost(credentials, id);
-        this.start();
+        start();
     }
     //print blog post
     public void printBlogPost(BlogPost bp){
